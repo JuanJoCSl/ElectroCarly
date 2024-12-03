@@ -9,7 +9,7 @@ if (empty($_SESSION['id_user'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>Base</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -90,55 +90,20 @@ if (empty($_SESSION['id_user'])) {
 				<a href="#" class="float-left show-nav-lateral"><i class="fas fa-exchange-alt"></i></a>
 				<a href="#" data-toggle="modal" data-target="#ModalHelp"><i class="far fa-question-circle"></i></a>
 				<a href="#"><i class="fas fa-user-cog"></i></a>
-				<a href="" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
+				<a href="#" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
 			</nav>
 
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-fire fa-fw"></i> &nbsp; BASE TEMPLATE
 				</h3>
 				<p class="text-justify">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
 				</p>
 			</div>
 			
-			<!-- Content -->
-			<div class="full-box tile-container">
-
-				<a href="listadmin.php" class="tile">
-					<div class="tile-tittle">List admins</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p>17 Registered</p>
-					</div>
-				</a>
-
-				<a href="productlist.php" class="tile">
-					<div class="tile-tittle">List products</div>
-					<div class="tile-icon">
-						<i class="fas fa-boxes fa-fw"></i>
-						<p>50 Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List clients</div>
-					<div class="tile-icon">
-						<i class="fas fa-child fa-fw"></i>
-						<p>150 Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List providers</div>
-					<div class="tile-icon">
-						<i class="fas fa-truck-moving fa-fw"></i>
-						<p>9 Registered</p>
-					</div>
-				</a>
-
-			</div>
+			<!-- Content here-->
 			
 
 		</section>

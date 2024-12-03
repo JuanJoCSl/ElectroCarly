@@ -3,13 +3,18 @@ session_start();
 if (empty($_SESSION['id_user'])) {
 	header("location: index.php");
 }
+require_once "bd/connection.php"; // Incluye el archivo de conexión
+require_once "controlador/controllerP.php"; // Incluye el archivo de lógica
+
+// Obtiene todos los productos
+$products = getProducts($con);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>List products</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -90,56 +95,82 @@ if (empty($_SESSION['id_user'])) {
 				<a href="#" class="float-left show-nav-lateral"><i class="fas fa-exchange-alt"></i></a>
 				<a href="#" data-toggle="modal" data-target="#ModalHelp"><i class="far fa-question-circle"></i></a>
 				<a href="#"><i class="fas fa-user-cog"></i></a>
-				<a href="" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
+				<a href="#" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
 			</nav>
 
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-boxes fa-fw"></i> &nbsp; LIST PRODUCTS
 				</h3>
 				<p class="text-justify">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
 				</p>
 			</div>
-			
-			<!-- Content -->
-			<div class="full-box tile-container">
 
-				<a href="listadmin.php" class="tile">
-					<div class="tile-tittle">List admins</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p>17 Registered</p>
-					</div>
-				</a>
-
-				<a href="productlist.php" class="tile">
-					<div class="tile-tittle">List products</div>
-					<div class="tile-icon">
-						<i class="fas fa-boxes fa-fw"></i>
-						<p>50 Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List clients</div>
-					<div class="tile-icon">
-						<i class="fas fa-child fa-fw"></i>
-						<p>150 Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List providers</div>
-					<div class="tile-icon">
-						<i class="fas fa-truck-moving fa-fw"></i>
-						<p>9 Registered</p>
-					</div>
-				</a>
-
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a href="product.php"><i class="fas fa-box fa-fw"></i> &nbsp; NEW PRODUCT</a>
+					</li>
+					<li>
+						<a class="active" href="productlist.html"><i class="fas fa-boxes fa-fw"></i> &nbsp; LIST PRODUCTS</a>
+					</li>
+				</ul>	
 			</div>
 			
+			<!-- Content here-->
+			<div class="container-fluid">
+				<div class="table-responsive">
+				<table class="table table-dark table-sm">
+            <thead>
+                <tr class="text-center roboto-medium">
+                    <th>#</th>
+                    <th>CODE</th>
+                    <th>NAME</th>
+                    <th>BRAND</th>
+                    <th>PRICE</th>
+                    <th>UPDATE</th>
+                    <th>DELETE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($products as $product): ?>
+                    <tr class="text-center">
+                        <td><?= $product['id'] ?></td>
+                        <td><?= $product['product_code'] ?></td>
+                        <td><?= $product['product_name'] ?></td>
+                        <td><?= $product['product_brand'] ?></td>
+                        <td>$<?= number_format($product['product_price'], 2) ?> USD</td>
+                        <td>
+                            <form method="POST" action="controlador/controllerP.php" style="display:inline;">
+                                <input type="hidden" name="update_product" value="1">
+                                <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                                <button type="submit" class="btn btn-success"><i class="fas fa-sync-alt"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="controlador/controllerP.php?delete_id=<?= $product['id'] ?>" class="btn btn-warning"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 
 		</section>
 

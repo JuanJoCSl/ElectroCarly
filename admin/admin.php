@@ -9,7 +9,7 @@ if (empty($_SESSION['id_user'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>New admin</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -90,54 +90,113 @@ if (empty($_SESSION['id_user'])) {
 				<a href="#" class="float-left show-nav-lateral"><i class="fas fa-exchange-alt"></i></a>
 				<a href="#" data-toggle="modal" data-target="#ModalHelp"><i class="far fa-question-circle"></i></a>
 				<a href="#"><i class="fas fa-user-cog"></i></a>
-				<a href="" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
+				<a href="#" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
 			</nav>
 
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-user-plus fa-fw"></i> &nbsp; NEW ADMIN
 				</h3>
 				<p class="text-justify">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
 				</p>
 			</div>
 			
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" href="admin.php"><i class="fas fa-user-plus fa-fw"></i> &nbsp; NEW ADMIN</a>
+					</li>
+					<li>
+						<a href="listadmin.php"><i class="fas fa-users fa-fw"></i> &nbsp; LIST ADMIN</a>
+					</li>
+				</ul>	
+			</div>
+			
 			<!-- Content -->
-			<div class="full-box tile-container">
-
-				<a href="listadmin.php" class="tile">
-					<div class="tile-tittle">List admins</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p>17 Registered</p>
-					</div>
-				</a>
-
-				<a href="productlist.php" class="tile">
-					<div class="tile-tittle">List products</div>
-					<div class="tile-icon">
-						<i class="fas fa-boxes fa-fw"></i>
-						<p>50 Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List clients</div>
-					<div class="tile-icon">
-						<i class="fas fa-child fa-fw"></i>
-						<p>150 Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List providers</div>
-					<div class="tile-icon">
-						<i class="fas fa-truck-moving fa-fw"></i>
-						<p>9 Registered</p>
-					</div>
-				</a>
-
+			<div class="container-fluid">
+				<form action="" class="form-neon" autocomplete="off">
+					<fieldset>
+						<legend><i class="far fa-address-card"></i> &nbsp; Personal information</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group">
+										<label for="AdminDNI" class="bmd-label-floating">DNI</label>
+										<input type="text" pattern="[0-9]{1,20}" class="form-control" id="AdminDNI" maxlength="20">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="AdminName" class="bmd-label-floating">Name</label>
+										<input type="text" pattern="[a-zA-z ]{1,25}" class="form-control" id="AdminName" maxlength="25">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="AdminLastName" class="bmd-label-floating">Last Name</label>
+										<input type="text" pattern="[a-zA-z ]{1,25}" class="form-control" id="AdminLastName" maxlength="25">
+									</div>
+								</div>
+								<div class="col-12">
+									<div style="padding: 20px 0 5px 0; color: #004f45; ">Gender</div>
+									<div class="form-group">
+										<div class="radio">
+											<label>
+												<input type="radio" name="AdminGender" value="Male" checked>
+												<i class="fas fa-male fa-fw"></i> &nbsp; Male
+											</label>
+										</div>
+										<div class="radio">
+											<label>
+												<input type="radio" name="AdminGender" id="optionsRadios2" value="Female">
+												<i class="fas fa-female fa-fw"></i> &nbsp; Female
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br><br>
+					<fieldset>
+						<legend><i class="fas fa-user-lock"></i> &nbsp; Account information</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="UserName" class="bmd-label-floating">User name</label>
+										<input type="text" pattern="[a-zA-Z]{1,15}" class="form-control" id="UserName" maxlength="15">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="Email" class="bmd-label-floating">Email</label>
+										<input type="email" class="form-control" id="Email" maxlength="50">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="Password1" class="bmd-label-floating">Password</label>
+										<input type="password" class="form-control" id="Password1" maxlength="50">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="Password2" class="bmd-label-floating">Repeat password</label>
+										<input type="password" class="form-control" id="Password2" maxlength="50">
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<p class="text-center" style="margin-top: 40px;">
+						<button type="reset" class="btn btn-info"><i class="fas fa-paint-roller"></i> &nbsp; CLEAR</button>
+						&nbsp; &nbsp;
+						<button type="submit" class="btn btn-success"><i class="far fa-save"></i> &nbsp; SAVE</button>
+					</p>
+				</form>
 			</div>
 			
 
