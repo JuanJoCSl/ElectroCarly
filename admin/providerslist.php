@@ -3,42 +3,18 @@ session_start();
 if (empty($_SESSION['id_user'])) {
 	header("location: index.php");
 }
-include_once("bd/connection.php");
-$sqlusers = "SELECT COUNT(*) AS total_users FROM users";  // Cambia la tabla y campo según tus necesidades
-$sqlpro = "SELECT COUNT(*) AS total_products FROM products";
-$sqlven = "SELECT COUNT(*) AS total_ventas FROM compras";
-$sqlcli = "SELECT COUNT(DISTINCT CONCAT(nombres_comprador, ' ', apellidos_comprador)) AS total_clientes FROM compras";
-$resultusers = $con->query($sqlusers);
-$resultpro = $con->query($sqlpro);
-$resultpven = $con->query($sqlven);
-$resultpcli = $con->query($sqlcli);
-if ($resultusers) {	
-    // Obtener el resultado
-    $row = $resultusers->fetch_assoc();
-    $total_users = $row['total_users']; // Asigna el valor a la variable
-}
-if ($resultpro) {
-    // Obtener el resultado
-    $row = $resultpro->fetch_assoc();
-    $total_products = $row['total_products']; // Asigna el valor a la variable
-}
-if ($resultpven) {
-    // Obtener el resultado
-    $row = $resultpven->fetch_assoc();
-    $total_ventas = $row['total_ventas']; // Asigna el valor a la variable
-}
-if ($resultpcli) {
-    // Obtener el resultado
-    $row = $resultpcli->fetch_assoc();
-    $total_clientes = $row['total_clientes']; // Asigna el valor a la variable
-}
+ // Incluye el archivo de conexión
+require_once "controlador/controllerPR.php"; // Incluye el archivo de lógica
+
+// Obtiene todos los productos
+$proviers = getProviers($con);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>List providers</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -119,59 +95,65 @@ if ($resultpcli) {
 				<a href="#" class="float-left show-nav-lateral"><i class="fas fa-exchange-alt"></i></a>
 				<a href="#" data-toggle="modal" data-target="#ModalHelp"><i class="far fa-question-circle"></i></a>
 				<a href="#"><i class="fas fa-user-cog"></i></a>
-				<a href="" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
+				<a href="#" class="btn-exit-system"><i class="fas fa-power-off"></i></a>
 			</nav>
 
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-boxes fa-fw"></i> &nbsp; LIST providers
 				</h3>
 				<p class="text-justify">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
 				</p>
 			</div>
-			
-			<!-- Content -->
-			<div class="full-box tile-container">
 
-				<a href="listadmin.php" class="tile">
-					<div class="tile-tittle">List admins</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p><?= $total_users;?> Registered</p>
-					</div>
-				</a>
-
-				<a href="productlist.php" class="tile">
-					<div class="tile-tittle">List products</div>
-					<div class="tile-icon">
-						<i class="fas fa-boxes fa-fw"></i>
-						<p><?=$total_products;?> Registered</p>
-					</div>
-				</a>
-
-				<a href="#" class="tile">
-					<div class="tile-tittle">List clients</div>
-					<div class="tile-icon">
-						<i class="fas fa-child fa-fw"></i>
-						<p><?=$total_clientes?> Registered</p>
-					</div>
-				</a>
-
-				<a href="providerslist.php" class="tile">
-					<div class="tile-tittle">List providers</div>
-					<div class="tile-icon">
-						<i class="fas fa-truck-moving fa-fw"></i>
-						<p><?=$total_ventas;?> Registered</p>
-					</div>
-				</a>
-
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" href="providerslist.html"><i class="fas fa-boxes fa-fw"></i> &nbsp; LIST providers</a>
+					</li>
+				</ul>	
 			</div>
 			
+			<!-- Content here-->
+			<div class="container-fluid">
+				<div class="table-responsive">
+				<table class="table table-dark table-sm">
+            <thead>
+                <tr class="text-center roboto-medium">
+                    <th>#</th>
+                    <th>CLIENT NAME</th>
+                    <th>CLIENT LASTNAME</th>
+                    <th>PRODUCT ID</th>
+                    <th>DATA AND CLOCK</th>
+                    <th>NRO TARJET</th>
+                    <th>CLIENT CI</th>
+                    <th>DELETE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($proviers as $product): ?>
+                    <tr class="text-center">
+                        <td><?= $product['id_reg_pk'] ?></td>
+                        <td><?= $product['nombres_comprador'] ?></td>
+                        <td><?= $product['apellidos_comprador'] ?></td>
+                        <td><?= $product['pro_id'] ?></td>
+                        <td><?= $product['fecha_hora'] ?></td>
+                        <td><?= $product['num_tarjeta'] ?></td>
+                        <td><?= $product['ci_comprador'] ?></td>
+                        <td>
+                            <a href="controlador/controllerPR.php?delete_id=<?= $product['id_reg_pk'] ?>" class="btn btn-warning"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+				</div>
+				
+			</div>
 
 		</section>
-
 		<!-- Help Modal -->
 		<div class="modal fade" id="ModalHelp" tabindex="-1" role="dialog" aria-labelledby="ModalHelpTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
@@ -194,8 +176,6 @@ if ($resultpcli) {
 			</div>
 		</div>
 	</main>
-	
-	
 	<!--=============================================
 	=            Include JavaScript files           =
 	==============================================-->

@@ -116,7 +116,7 @@ if (empty($_SESSION['id_user'])) {
 			
 			<!-- Content -->
 			<div class="container-fluid">
-				<form action="" class="form-neon" autocomplete="off">
+				<form action="controlador/controllerU.php" method="POST"  class="form-neon" autocomplete="off">
 					<fieldset>
 						<legend><i class="far fa-address-card"></i> &nbsp; Personal information</legend>
 						<div class="container-fluid">
@@ -124,19 +124,19 @@ if (empty($_SESSION['id_user'])) {
 								<div class="col-12">
 									<div class="form-group">
 										<label for="AdminDNI" class="bmd-label-floating">DNI</label>
-										<input type="text" pattern="[0-9]{1,20}" class="form-control" id="AdminDNI" maxlength="20">
+										<input type="text" name="dni" class="form-control" id="AdminDNI" maxlength="20">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="AdminName" class="bmd-label-floating">Name</label>
-										<input type="text" pattern="[a-zA-z ]{1,25}" class="form-control" id="AdminName" maxlength="25">
+										<input type="text" name="first_name" class="form-control" id="AdminName" maxlength="25">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="AdminLastName" class="bmd-label-floating">Last Name</label>
-										<input type="text" pattern="[a-zA-z ]{1,25}" class="form-control" id="AdminLastName" maxlength="25">
+										<input type="text" name="last_name" class="form-control" id="AdminLastName" maxlength="25">
 									</div>
 								</div>
 								<div class="col-12">
@@ -144,13 +144,13 @@ if (empty($_SESSION['id_user'])) {
 									<div class="form-group">
 										<div class="radio">
 											<label>
-												<input type="radio" name="AdminGender" value="Male" checked>
+												<input type="radio" name="gender" value="Male" checked>
 												<i class="fas fa-male fa-fw"></i> &nbsp; Male
 											</label>
 										</div>
 										<div class="radio">
 											<label>
-												<input type="radio" name="AdminGender" id="optionsRadios2" value="Female">
+												<input type="radio" name="gender" id="optionsRadios2" value="Female">
 												<i class="fas fa-female fa-fw"></i> &nbsp; Female
 											</label>
 										</div>
@@ -167,34 +167,34 @@ if (empty($_SESSION['id_user'])) {
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="UserName" class="bmd-label-floating">User name</label>
-										<input type="text" pattern="[a-zA-Z]{1,15}" class="form-control" id="UserName" maxlength="15">
+										<input type="text" name="username" class="form-control" id="UserName" maxlength="15">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="Email" class="bmd-label-floating">Email</label>
-										<input type="email" class="form-control" id="Email" maxlength="50">
+										<input type="email" class="form-control" name="email" id="Email" maxlength="50">
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="Password1" class="bmd-label-floating">Password</label>
-										<input type="password" class="form-control" id="Password1" maxlength="50">
-									</div>
-								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="Password2" class="bmd-label-floating">Repeat password</label>
-										<input type="password" class="form-control" id="Password2" maxlength="50">
-									</div>
-								</div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="Password1" class="bmd-label-floating">Password</label>
+                                        <input type="password" name="password" class="form-control" id="Password1" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="Password2" class="bmd-label-floating">Repeat password</label>
+                                        <input type="password" class="form-control" id="Password2" maxlength="50">
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</fieldset>
 					<p class="text-center" style="margin-top: 40px;">
 						<button type="reset" class="btn btn-info"><i class="fas fa-paint-roller"></i> &nbsp; CLEAR</button>
 						&nbsp; &nbsp;
-						<button type="submit" class="btn btn-success"><i class="far fa-save"></i> &nbsp; SAVE</button>
+						<button type="submit" name="add_user" class="btn btn-success"><i class="far fa-save"></i> &nbsp; SAVE</button>
 					</p>
 				</form>
 			</div>
@@ -229,6 +229,40 @@ if (empty($_SESSION['id_user'])) {
 	<!--=============================================
 	=            Include JavaScript files           =
 	==============================================-->
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		const form = document.querySelector('form');
+		const password1 = document.getElementById('Password1');
+		const password2 = document.getElementById('Password2');
+		const submitButton = form.querySelector('button[type="submit"]');
+
+		// Función para comprobar si las contraseñas coinciden
+		function checkPasswords() {
+			if (password1.value !== password2.value) {
+				submitButton.disabled = true; // Deshabilitar el botón
+			} else {
+				submitButton.disabled = false; // Habilitar el botón si coinciden
+			}
+		}
+
+		// Comprobar las contraseñas cada vez que cambien
+		password1.addEventListener('input', checkPasswords);
+		password2.addEventListener('input', checkPasswords);
+
+		// Comprobar las contraseñas al intentar enviar el formulario
+		form.addEventListener('submit', function(event) {
+			if (password1.value !== password2.value) {
+				event.preventDefault(); // Prevenir el envío del formulario
+				alert("Passwords do not match!"); // Mostrar mensaje de alerta
+			}
+		});
+
+		// Inicializar el estado del botón al cargar la página
+		checkPasswords();
+	});
+	</script>
+
+
 	<!-- jQuery V3.4.1 -->
 	<script src="./js/jquery-3.4.1.min.js" ></script>
 

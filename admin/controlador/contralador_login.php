@@ -9,17 +9,42 @@ if (!empty($_POST['btningresar'])) {
         } else {
             $user = $_POST['user'];
             $pass = $_POST['pass'];
-            $sql = $con->query("SELECT * FROM users WHERE user_name = '$user' AND user_pass ='$pass'");
-            if ($datos = $sql->fetch_object()) {
-                $_SESSION['id_user']=$datos->id_user;
-                $_SESSION['user']=$datos->user_name;
-                $_SESSION['pass']=$datos->user_pass;
-                $_SESSION['user_names'] = $datos->user_names;
-                $_SESSION['user_lastname']= $datos->user_lastname;
-                header("location: home.php");
+
+            // Preparar la consulta para obtener el hash almacenado y otros datos
+            $stmt = $con->prepare("SELECT id_user, dni, first_name, last_name, gender, username, email, password 
+                                FROM users 
+                                WHERE username = ?");
+            $stmt->bind_param("s", $user);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                // Recuperar los datos del usuario
+                $datos = $result->fetch_assoc();
+                $stored_hash = $datos['password'];
+
+                // Verificar la contraseña ingresada contra el hash almacenado
+                if (password_verify($pass, $stored_hash)) {
+                    // Iniciar sesión y guardar datos del usuario
+                    $_SESSION['id_user'] = $datos['id_user'];
+                    $_SESSION['user_names'] = $datos['first_name'];
+                    $_SESSION['user_lastname'] = $datos['last_name'];
+
+                    // Redirigir a la página principal
+                    header("Location: home.php");
+                    exit();
+                } else {
+                    // Contraseña incorrecta
+                    echo "<div class='alert alert-danger'>Acceso denegado: Contraseña incorrecta</div>";
+                }
             } else {
-                echo "<div class='alert alert-danger' >Acceso denegado</div>";
+                // Usuario no encontrado
+                echo "<div class='alert alert-danger'>Acceso denegado: Usuario no encontrado</div>";
             }
+
+            // Cerrar la declaración
+            $stmt->close();
+            
             
         }
     } else {

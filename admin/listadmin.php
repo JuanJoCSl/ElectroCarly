@@ -3,6 +3,10 @@ session_start();
 if (empty($_SESSION['id_user'])) {
 	header("location: index.php");
 }
+
+ // Incluye el archivo de conexión
+ require_once "controlador/controllerU.php"; // Incluye el archivo de lógica
+ $users = getUsers($con);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,97 +121,137 @@ if (empty($_SESSION['id_user'])) {
 			<!-- Content -->
 			<div class="container-fluid">
 				<div class="table-responsive">
-					<table class="table table-dark table-sm">
-						<thead>
-							<tr class="text-center roboto-medium">
-								<th>#</th>
-								<th>NAME</th>
-								<th>LAST NAME</th>
-								<th>UPDATE</th>
-								<th>DELETE</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="text-center" >
-								<td>1</td>
-								<td>Admin name</td>
-								<td>Admin last name</td>
-								<td>
-									<button type="button" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>
-										
-									</button>
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning">
-	  									<i class="far fa-trash-alt"></i>
-									</button>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>2</td>
-								<td>Admin name</td>
-								<td>Admin last name</td>
-								<td>
-									<button type="button" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>
-										
-									</button>
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning">
-	  									<i class="far fa-trash-alt"></i>
-									</button>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>3</td>
-								<td>Admin name</td>
-								<td>Admin last name</td>
-								<td>
-									<button type="button" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>
-										
-									</button>
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning">
-	  									<i class="far fa-trash-alt"></i>
-									</button>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>4</td>
-								<td>Admin name</td>
-								<td>Admin last name</td>
-								<td>
-									<button type="button" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>
-										
-									</button>
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning">
-	  									<i class="far fa-trash-alt"></i>
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<table class="table table-dark table-sm">
+					<thead>
+						<tr class="text-center roboto-medium">
+							<th>#</th>
+							<th>NAME</th>
+							<th>LAST NAME</th>
+							<th>UPDATE</th>
+							<th>DELETE</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($users as $user): ?>
+				<tr class="text-center">
+					<td><?php echo $user['id_user']; ?></td>
+					<td><?php echo $user['first_name']; ?></td>
+					<td><?php echo $user['last_name']; ?></td>
+					<td>
+						<!-- Botón para abrir el modal -->
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#ModalUpdate<?= $user['id_user'] ?>">
+							<i class="fas fa-sync-alt"></i>
+						</button>
+					</td>
+					<td>
+					<a href="controlador/controllerU.php?delete_id=<?= $user['id_user']; ?>" class="btn btn-warning"><i class="far fa-trash-alt"></i></a>
+					</td>
+				</tr>
+				
+				<!-- Modal para actualizar el usuario -->
+				<!-- Modal -->
+<div class="modal fade" id="ModalUpdate<?= $user['id_user'] ?>" tabindex="-1" role="dialog" aria-labelledby="ModalUpdateLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalUpdateLabel">Update User Information <?= $user['id_user']; ?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <!-- Formulario -->
+                    <form action="controlador/controllerU.php" method="POST" class="form-neon" autocomplete="off">
+					<input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
+                        <fieldset>
+                            <legend><i class="far fa-address-card"></i> &nbsp; Personal information</legend>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="AdminDNI" class="bmd-label-floating">DNI</label>
+                                            <input type="text" name="dni" value="<?= $user['dni']; ?>" class="form-control" id="AdminDNI" maxlength="20">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="AdminName" class="bmd-label-floating">Name</label>
+                                            <input type="text" name="first_name" value="<?= $user['first_name']; ?>" class="form-control" id="AdminName" maxlength="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="AdminLastName" class="bmd-label-floating">Last Name</label>
+                                            <input type="text" name="last_name" value="<?= $user['last_name']; ?>" class="form-control" id="AdminLastName" maxlength="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div style="padding: 20px 0 5px 0; color: #004f45;">Gender</div>
+                                        <div class="form-group">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="gender" value="Male" checked>
+                                                    <i class="fas fa-male fa-fw"></i> &nbsp; Male
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="gender" id="optionsRadios2" value="Female">
+                                                    <i class="fas fa-female fa-fw"></i> &nbsp; Female
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <br><br><br>
+
+                        <fieldset>
+                            <legend><i class="fas fa-user-lock"></i> &nbsp; Account information</legend>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="UserName" class="bmd-label-floating">User name</label>
+                                            <input type="text" name="username" value="<?= $user['username']; ?>" class="form-control" id="UserName" maxlength="15">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Email" class="bmd-label-floating">Email</label>
+                                            <input type="email" name="email" value="<?= $user['email']; ?>" class="form-control" id="Email" maxlength="50">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="Password1" class="bmd-label-floating">Password</label>
+                                            <input type="password" name="password" class="form-control" id="Password1" maxlength="50">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <p class="text-center" style="margin-top: 40px;">
+                            <button type="reset" class="btn btn-info"><i class="fas fa-paint-roller"></i> &nbsp; CLEAR</button>
+                            &nbsp; &nbsp;
+                            <button type="submit" name="update_user" class="btn btn-success"><i class="far fa-save"></i> &nbsp; SAVE</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+			<?php endforeach; ?>
+
+					</tbody>
+				</table>
 				</div>
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled">
-							<a class="page-link" href="#" tabindex="-1">Previous</a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#">Next</a>
-						</li>
-					</ul>
-				</nav>
 			</div>
 
 		</section>
@@ -239,6 +283,7 @@ if (empty($_SESSION['id_user'])) {
 	<!--=============================================
 	=            Include JavaScript files           =
 	==============================================-->
+	
 	<!-- jQuery V3.4.1 -->
 	<script src="./js/jquery-3.4.1.min.js" ></script>
 

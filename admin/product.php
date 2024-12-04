@@ -120,18 +120,18 @@ $products = getProducts($con);
 			
 			<!-- Content here-->
 			<div class="container-fluid">
-    <form action="controlador/controllerP.php" method="POST" class="form-neon" autocomplete="off">
+    <form action="controlador/controllerP.php" method="POST" class="form-neon" autocomplete="off" enctype="multipart/form-data">
         <fieldset>
             <legend><i class="fas fa-box-open"></i> &nbsp; Basic information</legend>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="ProductCode" class="bmd-label-floating">Code</label>
-                            <input type="text" name="product_code" pattern="[a-zA-Z0-9]{1,25}" class="form-control" id="ProductCode" maxlength="25" required>
+                            <input type="text" name="product_code" class="form-control" id="ProductCode" maxlength="25" required>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="ProductName" class="bmd-label-floating">Name</label>
                             <input type="text" name="product_name" pattern="[a-zA-Z0-9 ]{1,30}" class="form-control" id="ProductName" maxlength="30" required>
@@ -139,16 +139,27 @@ $products = getProducts($con);
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="form-group">
+						<label for="ProductBrand" class="bmd-label-floating">O.S.</label>
+                            <select name="product_os" class="form-control" id="ProductBrand" required>
+                                <option value="">Select a O. S.</option>
+                                <option value="Android">Android</option>
+                                <option value="iOS">iOS</option>
+                                <option value="Linux">Linux</option>
+                            </select>
+						</div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
                             <label for="ProductBrand" class="bmd-label-floating">Brand</label>
                             <select name="product_brand" class="form-control" id="ProductBrand" required>
-                                <option value="">Select a Brand</option>
-                                <option value="Apple">Apple</option>
-                                <option value="Samsung">Samsung</option>
-                                <option value="Huawei">Huawei</option>
-                                <option value="Xiaomi">Xiaomi</option>
-                                <option value="OnePlus">OnePlus</option>
-                                <option value="Sony">Sony</option>
-                                <option value="LG">LG</option>
+                                <option value=""> Select a Brand</option>
+                                <option value="Apple"> Apple</option>
+                                <option value="Samsung"> Samsung</option>
+                                <option value="Huawei"> Huawei</option>
+                                <option value="Xiaomi"> Xiaomi</option>
+                                <option value="OnePlus"> OnePlus</option>
+                                <option value="Sony"> Sony</option>
+                                <option value="LG"> LG</option>
                                 <option value="Motorola">Motorola</option>
                             </select>
                         </div>
@@ -156,7 +167,7 @@ $products = getProducts($con);
                     <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="ProductModel" class="bmd-label-floating">Model</label>
-                            <input type="text" name="product_model" pattern="[a-zA-Z0-9 ]{1,20}" class="form-control" id="ProductModel" maxlength="20" required>
+                            <input type="text" name="product_model" class="form-control" id="ProductModel" maxlength="20" required>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -178,11 +189,9 @@ $products = getProducts($con);
                             <label for="ProductProvider" class="bmd-label-floating">Provider</label>
                             <select name="product_provider" class="form-control" id="ProductProvider" required>
                                 <option value="">Select a Provider</option>
-                                <option>Provider 1</option>
-                                <option>Provider 2</option>
-                                <option>Provider 3</option>
-                                <option>Provider 4</option>
-                                <option>Provider 5</option>
+                                <option> Tech Data</option>
+                                <option> Ingram Micro</option>
+                                <option> Arrow Electronics</option>
                             </select>
                         </div>
                     </div>
@@ -190,9 +199,9 @@ $products = getProducts($con);
                         <div class="form-group">
                             <label for="ProductCategory" class="bmd-label-floating">Category</label>
                             <select name="product_category" class="form-control" id="ProductCategory" required>
-                                <option value="">Select a Category</option>
-                                <option value="Celulares">Celulares</option>
-                                <option value="Tablets">Tablets</option>
+                                <option value=""> Select a Category</option>
+                                <option value="Celulares"> Celulares</option>
+                                <option value="Tablets"> Tablets</option>
                             </select>
                         </div>
                     </div>
